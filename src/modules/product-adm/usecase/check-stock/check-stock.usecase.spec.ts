@@ -4,8 +4,8 @@ import CheckStockUseCase from "./check-stock.usecase";
 
 const product = new Product({
   id: new Id("1"),
-  name: "Product",
-  description: "Product description",
+  name: "Product 1",
+  description: "Product 1 description",
   purchasePrice: 100,
   stock: 10,
 });
@@ -17,17 +17,18 @@ const MockRepository = () => {
   };
 };
 
-describe("CheckStock usecase unit test", () => {
-  it("should get stock of a product", async () => {
-    const ProductRepository = MockRepository();
-    const checkStockUseCase = new CheckStockUseCase(ProductRepository);
+describe("check stock usecase unit test", () => {
+  it("should add a product", async () => {
+    const productRepository = MockRepository();
+    const usecase = new CheckStockUseCase(productRepository);
+
     const input = {
       productId: "1",
     };
 
-    const result = await checkStockUseCase.execute(input);
+    const result = await usecase.execute(input);
 
-    expect(ProductRepository.find).toHaveBeenCalled();
+    expect(productRepository.find).toHaveBeenCalled();
     expect(result.productId).toBe("1");
     expect(result.stock).toBe(10);
   });
